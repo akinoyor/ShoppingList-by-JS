@@ -1,0 +1,20 @@
+header, footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+header {
+  top: 0;
+}
+
+footer {
+  bottom: 0;
+}
+
+.body {
+  padding-top: 135px;
+  padding-bottom: 40px;
+}
