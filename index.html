@@ -13,14 +13,15 @@
       <h1 class="text-center">ショッピングリスト</h1>
       <div class="row mt-3">
         <input id="item_name" type="text" placeholder="商品名をここに入力" class="col-7 me-2">
-        <input id="item_quantity" type="number" placeholder="数量" class="col me-2">
-        <select name="list_tag" class="col-3">
-          <option>全部</option>
+        <input id="item_quantity" type="number" min="0" placeholder="数量" class="col me-2">
+        <select id="list_tag" class="col-3">
+          <option>一覧</option>
+          <option>tag1</option>
         </select>
       </div>
       <div class="row mt-1">
         <input id="memo" type="text" placeholder="memo" class="col me-2">
-        <button id="registration" type="button" class="col-3 btn btn-primary">登録</button>
+        <button id="registration" class="col-3 btn btn-primary">登録</button>
       </div>
     </header>
 
@@ -31,25 +32,13 @@
         <div class="col-2 btn btn-secondary">購入済リスト</div>
       </div>
       <!--ここからアイテム一覧-->
-      <div id="items_list" class="row mt-1">
-        <div id="item mt-1">
-          <div class="row">
-            <div class="col-7 me-2 border border-dark">商品名</div>
-            <div class="col me-2 border border-dark">数量</div>
-            <div class="col-3 border border-dark">タグ名</div>
-          </div>
-          <div class="row mt-1">
-            <div class="col me-2 border border-dark">memo</div>
-            <button id="finish" type="button" class="col-3 btn btn-primary">完了</button>
-          </div>
-        </div>
-      </div>
+      <div id="items_list" class="row mt-1"></div>
     </div>
 
     <footer class="container">
       <div class="row">
-        <button id="finished_delet" type="button" class="col btn btn-warning">購入済み削除</button>
-        <button id="finished_delet" type="button" class="col btn btn-danger">全削除</button>
+        <button id="finished_delete" type="button" class="col btn btn-warning">購入済み削除</button>
+        <button id="all_delete" type="button" class="col btn btn-danger">全削除</button>
       </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
