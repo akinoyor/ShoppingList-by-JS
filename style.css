@@ -18,3 +18,7 @@ footer {
   padding-top: 135px;
   padding-bottom: 40px;
 }
+
+.none {
+  display: none;
+}

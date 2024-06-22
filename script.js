@@ -2,7 +2,7 @@ const $itemName = document.getElementById('item_name');
 const $itemQuantity = document.getElementById('item_quantity');
 const $select = document.getElementById('list_tag');
 let selectedTag = "一覧";
-const $memo = document.getElementById('memo');
+const $itemMemo = document.getElementById('memo');
 const $registration = document.getElementById('registration');
 let itemObj = {};
 const $itemsList = document.getElementById('items_list');
@@ -18,8 +18,9 @@ $registration.addEventListener('click', () => {
       itemObj['name'] = $itemName.value;
       itemObj['quantity'] = $itemQuantity.value;
       itemObj['tag'] = selectedTag;
-      itemObj['memo'] = $memo.value;
+      itemObj['memo'] = $itemMemo.value;
       add(itemObj);
+      reset();
     }else{
       window.alert('数量は0個以上で入力してください');
     };
@@ -38,6 +39,7 @@ function add(itemObj){
   const row1 = document.createElement('div');
   const divMemo = document.createElement('div');
   const buttonFinish = document.createElement('button');
+  const buttonFinishRemove = document.createElement('button');
   const row2 = document.createElement('div');
   divItem.classList.add('col-7', 'me-2', 'border', 'border-dark');
   divItem.innerText = itemObj['name'];
@@ -60,14 +62,27 @@ function add(itemObj){
 
   buttonFinish.classList.add('col-3', 'btn', 'btn-primary');
   buttonFinish.innerText = '完了';
+  buttonFinish.addEventListener('click', () => {
+    divItem.classList.add('text-decoration-line-through');
+    buttonFinishRemove.classList.remove('none');
+    buttonFinish.classList.add('none');
+  });
+  buttonFinishRemove.classList.add('col-3', 'btn', 'btn-warning', 'none');
+  buttonFinishRemove.innerText = '完了取り消し';
+  buttonFinishRemove.addEventListener('click', () => {
+    divItem.classList.remove('text-decoration-line-through');
+    buttonFinishRemove.classList.add('none');
+    buttonFinish.classList.remove('none');
+  });
 
-  contents = [divMemo, buttonFinish];
+  contents = [divMemo, buttonFinish, buttonFinishRemove];
 
   row2.classList.add('row', 'my-1');
   contents.forEach(content =>{
     row2.appendChild(content);
   });
 
+  div.classList.add('item');
   contents = [row1, row2];
   contents.forEach(content =>{
     div.appendChild(content);
@@ -75,4 +90,10 @@ function add(itemObj){
 
   $itemsList.appendChild(div);
   console.log('add active')
+};
+
+function reset(){
+  $itemName.value = "";
+  $itemQuantity.value = "";
+  $itemMemo.value ="";
 };
