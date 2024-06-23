@@ -7,7 +7,7 @@ const $registration = document.getElementById('registration');
 let itemObj = {};
 const $itemsList = document.getElementById('items_list');
 const localItems = JSON.parse(localStorage.getItem('items'));
-const localTags = ['tag1','tag2'];//FIXME ローカルから呼び出しに要修正
+const localTags = JSON.parse(localStorage.getItem('tags'));
 const $anyTags = document.getElementById('any-tags');
 const $addTag = document.getElementById('addTag');
 
@@ -40,8 +40,13 @@ $registration.addEventListener('click', () => {
 });//登録ボタン
 $addTag.addEventListener('click', ()=>{
   const tagName = window.prompt("タグの名前を入れてください", "");
+  if(tagName){
   addTag(tagName);
-});
+  saveTags();
+  }else{
+    window.alert('タグの名前を入れてください');
+  };
+});//Tag追加ボタン
 
 function add(itemObj){
   let item;
@@ -169,6 +174,7 @@ function addTags(){
   resetTags();
   localTags.forEach(localTag =>{
   addTag(localTag);
+  saveTags();
   });
 };
 
@@ -193,6 +199,7 @@ function resetTags(){
     $anyTags.removeChild($anyTags.firstChild);
   };
 };
+
 function tagEffect(){
   let tagButtons = document.getElementById('tags').querySelectorAll('button');
   tagButtons.forEach(tagButton =>{
@@ -218,4 +225,13 @@ function tagEffect(){
       };
     });
   });
+};
+
+function saveTags(){
+  const tagsList = $anyTags.querySelectorAll('button');
+  let tags = [];
+  tagsList.forEach(tagList =>{
+    tags.push(tagList.innerText);
+  });
+  localStorage.setItem('tags', JSON.stringify(tags));
 };
