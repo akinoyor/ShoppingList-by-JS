@@ -7,17 +7,20 @@ const $registration = document.getElementById('registration');
 let itemObj = {};
 const $itemsList = document.getElementById('items_list');
 const localItems = JSON.parse(localStorage.getItem('items'));
+const localTags = ['tag1','tag2'];//FIXME ローカルから呼び出しに要修正
+const $anyTags = document.getElementById('any-tags');
+const $addTag = document.getElementById('addTag');
+
+addTags();//ロード時にタグ内容追加
+tagEffect();//タグボタンに機能実装
 if(localItems){
   localItems.forEach(item =>{
     add(item);
   });
-};
-
+};//localstorageのデータを表示
 $select.onchange = function(){
   selectedTag = this.value;
-};
-
-//登録ボタン
+};//プルダウン表示
 $registration.addEventListener('click', () => {
   if($itemName.value && $itemQuantity.value){
     if($itemQuantity.value >= 0){
@@ -34,6 +37,10 @@ $registration.addEventListener('click', () => {
   }else{
     window.alert('商品名と数量を入力してください');
   };
+});//登録ボタン
+$addTag.addEventListener('click', ()=>{
+  const tagName = window.prompt("タグの名前を入れてください", "");
+  addTag(tagName);
 });
 
 function add(itemObj){
@@ -158,33 +165,57 @@ function deleteALL(){
 save();
 };
 
-function allNone(){
-  const listItemes = document.querySelectorAll('.item');
-  listItemes.forEach(listItem =>{
-    listItem.classList.add('none');
+function addTags(){
+  resetTags();
+  localTags.forEach(localTag =>{
+  addTag(localTag);
   });
 };
 
+function addTag(tag){
+  const op = document.createElement('option');
+  const bt = document.createElement('button');
+  op.innerText = tag;
+  $select.appendChild(op);
+  bt.innerText = tag;
+  bt.classList.add(...['col-2', 'btn', 'btn-secondary', 'me-2']);
+  $anyTags.appendChild(bt);
+};
 
-let tagButtons = document.getElementById('tags').querySelectorAll('button');
-tagButtons.forEach(tagButton =>{
-  tagButton.addEventListener('click', function(){
-    allNone();
-    const tagName = this.innerText;
-    const items = document.querySelectorAll('.item');
-    if(tagName == '一覧'){
+function resetTags(){
+  while($select.firstChild){
+    $select.removeChild($select.firstChild);
+  };
+  const all = document.createElement('option');
+  all.innerText = '一覧';
+  $select.appendChild(all);
+  while($anyTags.firstChild){
+    $anyTags.removeChild($anyTags.firstChild);
+  };
+};
+function tagEffect(){
+  let tagButtons = document.getElementById('tags').querySelectorAll('button');
+  tagButtons.forEach(tagButton =>{
+    tagButton.addEventListener('click', function(){
+      const tagName = this.innerText;
+      const items = document.querySelectorAll('.item');
       items.forEach(item =>{
-        item.classList.remove('none');
-      });
-    }else if(tagName == '購入済リスト'){
-      const completedItems = document.querySelectorAll('.completed');
-      completedItems.forEach(item =>{item.classList.remove('none');});
-    }else{
-      items.forEach(item =>{
-        if(item.querySelector('.tag').innerText == tagName){
+      item.classList.add('none');
+    });
+      if(tagName == '一覧'){
+        items.forEach(item =>{
           item.classList.remove('none');
-        };
-      });
-    };
+        });
+      }else if(tagName == '購入済リスト'){
+        const completedItems = document.querySelectorAll('.completed');
+        completedItems.forEach(item =>{item.classList.remove('none');});
+      }else{
+        items.forEach(item =>{
+          if(item.querySelector('.tag').innerText == tagName){
+            item.classList.remove('none');
+          };
+        });
+      };
+    });
   });
-});
+};
