@@ -13,6 +13,22 @@ const $addTag = document.getElementById('addTag');
 
 addTags();//ロード時にタグ内容追加
 tagEffect();//タグボタンに機能実装
+document.addEventListener('DOMContentLoaded', (event)=>{
+  function deleteTag(){
+  const tags = $anyTags.querySelectorAll('button');
+  tags.forEach(tag =>{
+    tag.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+      let flag = window.confirm(tag.innerText + 'タグを削除しますか？');
+      if(flag){
+        tag.remove();
+        saveTags();
+      };
+    });
+  });
+};
+deleteTag();
+});//FIXME 一度クリックするまで機能しない
 if(localItems){
   localItems.forEach(item =>{
     add(item);
@@ -47,6 +63,8 @@ $addTag.addEventListener('click', ()=>{
     window.alert('タグの名前を入れてください');
   };
 });//Tag追加ボタン
+
+
 
 function add(itemObj){
   let item;
