@@ -26,10 +26,10 @@
     </header>
 
     <div class="body container">
-      <div class="row mt-3">
-        <div class="col-2 btn btn-info">一覧</div>
-        <div id="tags" class="col"><div class="col-3 btn btn-secondary h-100">タグ一覧</div></div>
-        <div class="col-2 btn btn-secondary">購入済リスト</div>
+      <div id="tags" class="row mt-3">
+        <button class="col-2 btn btn-info" onclick="tagButtonClickde()">一覧</button>
+        <div class="col"><button class="col-3 btn btn-secondary h-100">tag1</button></div>
+        <button class="col-2 btn btn-secondary">購入済リスト</button>
       </div>
       <!--ここからアイテム一覧-->
       <div id="items_list" class="row mt-1"></div>
@@ -37,8 +37,8 @@
 
     <footer class="container">
       <div class="row">
-        <button id="finished_delete" type="button" class="col btn btn-warning">購入済み削除</button>
-        <button id="all_delete" type="button" class="col btn btn-danger">全削除</button>
+        <button id="finished_delete" type="button" class="col btn btn-warning" onclick="partialDeletion()" >購入済み削除</button>
+        <button id="all_delete" type="button" class="col btn btn-danger" onclick="deleteALL()">全削除</button>
       </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>

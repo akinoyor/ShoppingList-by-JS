@@ -22,3 +22,7 @@ footer {
 .none {
   display: none;
 }
+
+.completed {
+  background-color: #D0D927;
+}

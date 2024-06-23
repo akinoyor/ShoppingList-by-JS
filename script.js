@@ -61,9 +61,12 @@ function add(itemObj){
     container.name.innerText = itemObj[container.id];
   });
 
+  div.classList.add('item');
+
   buttonFinish.classList.add('col-3', 'btn', 'btn-primary');
   buttonFinish.innerText = '完了';
   buttonFinish.addEventListener('click', () =>{
+    div.classList.add('completed');
     divItem.classList.add('text-decoration-line-through');
     buttonFinishRemove.classList.remove('none');
     buttonDelete.classList.remove('none');
@@ -73,6 +76,7 @@ function add(itemObj){
   buttonFinishRemove.classList.add('col-1', 'btn', 'btn-warning', 'none');
   buttonFinishRemove.innerText = '取消';
   buttonFinishRemove.addEventListener('click', () =>{
+    div.classList.remove('completed');
     divItem.classList.remove('text-decoration-line-through');
     buttonFinishRemove.classList.add('none');
     buttonDelete.classList.add('none');
@@ -87,6 +91,7 @@ function add(itemObj){
   });
 
   if(itemObj.completed){
+    div.classList.add('completed');
     divItem.classList.add('text-decoration-line-through');
     buttonFinishRemove.classList.remove('none');
     buttonDelete.classList.remove('none');
@@ -133,6 +138,53 @@ function save(){
       completed: listItem.getElementsByClassName('name')[0].classList.contains('text-decoration-line-through')
     };
     items.push(item);
-    localStorage.setItem('items', JSON.stringify(items));
+  });
+  localStorage.setItem('items', JSON.stringify(items));
+};
+
+function partialDeletion(){
+  const listItems = document.querySelectorAll('.completed');
+  listItems.forEach(listitem =>{
+    listitem.remove();
+  });
+  save();
+};
+
+function deleteALL(){
+  const listItemes = document.getElementById('items_list');
+  while(listItemes.firstChild){
+  listItemes.removeChild(listItemes.firstChild);
+};
+save();
+};
+
+function allNone(){
+  const listItemes = document.querySelectorAll('.item');
+  listItemes.forEach(listItem =>{
+    listItem.classList.add('none');
   });
 };
+
+
+let tagButtons = document.getElementById('tags').querySelectorAll('button');
+tagButtons.forEach(tagButton =>{
+  tagButton.addEventListener('click', function(){
+    allNone();
+    const tagName = this.innerText;
+    const items = document.querySelectorAll('.item');
+    if(tagName == '一覧'){
+      items.forEach(item =>{
+        item.classList.remove('none');
+      });
+    }else if(tagName == '購入済リスト'){
+      const completedItems = document.querySelectorAll('.completed');
+      completedItems.forEach(item =>{item.classList.remove('none');});
+    }else{
+      items.forEach(item =>{
+        if(item.querySelector('.tag').innerText == tagName){
+          item.classList.remove('none');
+        };
+      });
+    };
+  });
+});
