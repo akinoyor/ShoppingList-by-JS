@@ -165,18 +165,20 @@ function partialDeletion(){
 };
 
 function deleteALL(){
-  const listItemes = document.getElementById('items_list');
-  while(listItemes.firstChild){
-  listItemes.removeChild(listItemes.firstChild);
-};
-save();
+  let flag = window.confirm('全件削除しますか？');
+  if(flag){
+    const listItemes = document.getElementById('items_list');
+    while(listItemes.firstChild){
+    listItemes.removeChild(listItemes.firstChild);
+    };
+  };
+  save();
 };
 
 function addTags(){
   resetTags();
   localTags.forEach(localTag =>{
   addTag(localTag);
-  saveTags();
   });
 };
 
@@ -187,14 +189,25 @@ function addTag(tag){
   $select.appendChild(op);
   bt.innerText = tag;
   bt.classList.add(...['col-2', 'btn', 'btn-secondary', 'me-2']);
-  bt.addEventListener('contextmenu', (event) => {
-      event.preventDefault();
-      let flag = window.confirm(tag.innerText + 'タグを削除しますか？');
-      if(flag){
-        bt.remove();
-        saveTags();
+  bt.addEventListener('contextmenu', (event) =>{
+    event.preventDefault();
+    let flag = window.confirm(tag + 'タグを削除しますか？');
+    if(flag){
+      bt.remove();
+      op.remove();
+      saveTags();
+    };
+  });
+  bt.addEventListener('click', function(){
+    const tagName = this.innerText;
+    const items = document.querySelectorAll('.item');
+    items.forEach(item =>{
+      item.classList.add('none');
+      if(item.querySelector('.tag').innerText == tagName){
+        item.classList.remove('none');
       };
     });
+  });
   $anyTags.appendChild(bt);
 };
 
@@ -245,3 +258,7 @@ function saveTags(){
   });
   localStorage.setItem('tags', JSON.stringify(tags));
 };
+
+
+//FIXME Tag削除機能　ページリロード時右クリックがデフォルトの表示になる　
+//タグを選んだ状態で　新規アイテム登録をすると　タグを選んだ時にソートをするので　違うタグ表示の時も追加で表示される
